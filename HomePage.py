@@ -7,7 +7,6 @@ class HomePageLocators(BasePage):
     LOCATOR_ADD_CHILD_BUTTON = (By.XPATH, '//*[@id="xp__guests__inputs-container"]/div/div/div[2]/div/div[2]/button[2]')
     LOCATOR_STRANGERS_MENU_SELECTING = (By.XPATH, '//*[@id="xp__guests__toggle"]/span[2]')
     LOCATOR_CHILDREN_SELECTED = (By.CLASS_NAME, 'sb_child_ages_empty_zero')
-    #scenario2
     LOCATOR_CITY_TAB = (By.XPATH, "//ul[@role='tablist']/li[contains(text(), 'Cities')]")
     LOCATOR_CITY_LIST = (By.XPATH, "//li[@class='ia_section  active']//a[@class='ia_link']")
 

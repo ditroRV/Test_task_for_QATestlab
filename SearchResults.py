@@ -8,10 +8,9 @@ class SearchResultsLocators():
     LOCATOR_HOTELS_LIST = (By.XPATH, "//span[@class='bui-button__text']")
     LOCATOR_SUBMIT_BUTTON = (By.CLASS_NAME, "sb-searchbox__button ")
     LOCATOR_LIST_OF_PRICES = (By.XPATH, "//div[@class='bui-price-display__value prco-text-nowrap-helper prco-inline-block-maker-helper']")
-    LOCATOR_BOOKING_PRICES = (By.XPATH, '//*[@id="hotellist_inner"]/div[1]/div[2]/div[3]/div/div/div[1]/div/div[2]/div[1]/div[2]/div/div')
     CALENDAR_XPATH = ("//div[@class='c2-calendar']")
     CALENDAR_CLASS_NAME = 'bui-calendar__display'
-
+    LOCATOR_TODAY_DATE = "//div[contains(@class, 'calendar')]//span[contains(text()"
 
 
 class SearchResults(BasePage):
@@ -42,9 +41,7 @@ class SearchResults(BasePage):
         return today.strftime("%d")
 
     def set_any_dates(self):
-        #today_date = driver.find_element_by_class_name("bui-calendar__date bui-calendar__date--today")
-        today_date = self.driver.find_element_by_xpath(f"//div[contains(@class, 'calendar')]//span[contains(text(), '{self.get_today_date()}')]")
-        print(f'today date {today_date.text}')
+        today_date = self.driver.find_element_by_xpath(f"{SearchResultsLocators.LOCATOR_TODAY_DATE}, '{self.get_today_date()}')]")
         today_date.click()
 
 
@@ -68,6 +65,32 @@ class SearchResults(BasePage):
         return price_element.text.split(" ")[1]
 
 
-    def search_any_date(self):
+    def set_date_and_click_submit_button(self):
         self.set_any_dates()
         self.click_submit_button()
+
+
+    def is_firtst_calendar_displayed(self):
+        is_calendar_displayed = self.is_element_displayed(self.get_calendar_xpath())
+        return is_calendar_displayed
+
+
+    def is_second_calendar_displayed(self):
+        is_calendar_displayed =  self.is_element_displayed_by_class_name(self.get_calendar_clas_name())
+        return is_calendar_displayed
+
+    def is_calendars_displayed(self):
+        if self.is_firtst_calendar_displayed or self.is_second_calendar_displayed():
+            return True
+        else:
+            return False
+
+
+    def is_price_displayed(self):
+        prices_list = self.prices_elements()
+        prices = self.prices()
+        for price in prices:
+            if len(price) > 0:
+                return True
+            else:
+                return False
